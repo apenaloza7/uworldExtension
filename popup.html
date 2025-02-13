@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            width: 250px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+        .setting {
+            margin: 10px 0;
+        }
+        label {
+            display: inline-block;
+            width: 140px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Celebration Settings</h3>
+    <div class="setting">
+        <label>Confetti Amount:</label>
+        <input type="range" id="confettiCount" min="50" max="300" value="150">
+    </div>
+    <div class="setting">
+        <label>Hooray Volume:</label>
+        <input type="range" id="hoorayVolume" min="0" max="100" value="10">
+    </div>
+    <div class="setting">
+        <label>JJK Volume:</label>
+        <input type="range" id="jjkVolume" min="0" max="100" value="10">
+    </div>
+    <div class="setting">
+        <label>Enable Confetti:</label>
+        <input type="checkbox" id="enableConfetti" checked>
+    </div>
+    <div class="setting">
+        <label>Enable Sounds:</label>
+        <input type="checkbox" id="enableSounds" checked>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
