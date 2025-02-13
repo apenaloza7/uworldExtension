@@ -3,7 +3,6 @@
     "name": "UWorld Celebration",
     "version": "1.0",
     "description": "Adds celebration effects to UWorld correct answers and test scores!",
-    "permissions": ["activeTab"],
     "content_scripts": [{
       "matches": ["*://*.uworld.com/*"],
       "js": ["content.js"]
