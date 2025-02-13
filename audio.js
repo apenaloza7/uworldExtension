@@ -1,3 +1,4 @@
+
 ////////////////////////////////////////////////////////////////////////
 // Hooray Audio
 ////////////////////////////////////////////////////////////////////////
@@ -91,13 +92,3 @@ export function playJjkAudio() {
 export function resetJjkAudio() {
     jjkAudioPlayed = false;
 }
-
-// Load initial settings
-chrome.storage.sync.get({
-    hoorayVolume: 10,
-    jjkVolume: 10,
-    enableSounds: true
-}, (settings) => {
-    hoorayAudio.volume = settings.hoorayVolume / 100;
-    jjkAudio.volume = settings.jjkVolume / 100;
-});

@@ -3,7 +3,7 @@
     "name": "UWorld Celebration",
     "version": "1.0",
     "description": "Adds celebration effects to UWorld correct answers and test scores!",
-    "permissions": ["activeTab", "storage"],
+    "permissions": ["activeTab"],
     "content_scripts": [{
       "matches": ["*://*.uworld.com/*"],
       "js": ["content.js"]
@@ -17,8 +17,5 @@
         "confetti.js"
       ],
       "matches": ["*://*.uworld.com/*"]
-    }],
-    "action": {
-        "default_popup": "popup.html"
-    }
+    }]
 }
