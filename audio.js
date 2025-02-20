@@ -1,9 +1,6 @@
-
 ////////////////////////////////////////////////////////////////////////
 // Hooray Audio
 ////////////////////////////////////////////////////////////////////////
-
-let audioInitialized = false;
 
 export const hoorayAudio = new Audio(chrome.runtime.getURL('hooray.mp3'));
 hoorayAudio.volume = 0.1;
@@ -15,16 +12,6 @@ hoorayAudio.addEventListener('loadeddata', () => {
     console.log('Audio volume:', hoorayAudio.volume);
 });
 
-// Initialize audio after user interaction
-document.addEventListener('click', () => {
-    if (!audioInitialized) {
-        hoorayAudio.load();
-        jjkAudio.load();
-        audioInitialized = true;
-        console.log('Audio initialized after user interaction');
-    }
-}, { once: true });
-
 // Add detailed error logging
 hoorayAudio.addEventListener('error', (e) => {
     console.error('Hooray audio error:', {
@@ -35,16 +22,20 @@ hoorayAudio.addEventListener('error', (e) => {
 });
 
 export function playHoorayAudio() {
-    if (!audioInitialized) {
-        console.log('Audio not initialized - waiting for user interaction');
-        return;
-    }
-    hoorayAudio.currentTime = 0;
-    return hoorayAudio.play()
-        .then(() => console.log('Audio playing successfully'))
-        .catch(e => console.error('Audio play error details:', e.name, e.message));
+    return new Promise((resolve, reject) => {
+        hoorayAudio.load();
+        hoorayAudio.currentTime = 0;
+        return hoorayAudio.play()
+            .then(() => {
+                console.log('Hooray audio playing successfully');
+                resolve();
+            })
+            .catch(e => {
+                console.error('Hooray audio error:', e);
+                reject(e);
+            });
+    });
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 // JJK Audio
@@ -71,21 +62,31 @@ jjkAudio.addEventListener('error', (e) => {
 });
 
 export function playJjkAudio() {
-    if (!audioInitialized) {
-        console.log('JJK Audio not initialized - waiting for user interaction');
-        return;
-    }
-    
-    if (jjkAudioPlayed) {
-        console.log('JJK Audio already played for this session');
-        return;
-    }
+    return new Promise((resolve, reject) => {
+        if (jjkAudioPlayed) {
+            console.log('JJK Audio already played for this session');
+            return reject(new Error('Audio already played'));
+        }
 
-    jjkAudio.currentTime = 0;
-    jjkAudioPlayed = true;
-    return jjkAudio.play()
-        .then(() => console.log('JJK Audio playing successfully'))
-        .catch(e => console.error('JJK Audio play error details:', e.name, e.message));
+        // Initialize and play
+        jjkAudio.load();
+        jjkAudio.currentTime = 0;
+        
+        // Set flag before playing
+        jjkAudioPlayed = true;
+        
+        // Try to play
+        return jjkAudio.play()
+            .then(() => {
+                console.log('JJK Audio playing successfully');
+                resolve();
+            })
+            .catch(e => {
+                console.error('JJK Audio play error:', e);
+                jjkAudioPlayed = false; // Reset on error
+                reject(e);
+            });
+    });
 }
 
 // Optional: Add reset function for new sessions
